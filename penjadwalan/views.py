@@ -1,0 +1,504 @@
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from .models import *
+from .forms import *
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+# Create your views here.
+
+def signup(request):
+    if request.method == 'POST':
+        userform = UserCreationForm(request.POST)
+        guruform = Ftambahguru(request.POST or None)
+
+        if userform.is_valid():
+            print("tersave")
+            userform.save()
+            print("tersave2")
+
+            username = userform.cleaned_data.get('username')
+            guru_userform = User.objects.get(username = username)
+            # raw_password = userform.cleaned_data.get('password1')
+            
+            if request.method == "POST" and guruform.is_valid():
+                print("valid guruform")
+                # print('tes', guru_userform.id)
+                # guruform.user = guru_userform.id
+                user_id     = guru_userform.id
+                nik         = guruform.cleaned_data['nik']
+                kode        = guruform.cleaned_data['kode'] 
+                nama        = guruform.cleaned_data['nama']
+                nama_blkg   = guruform.cleaned_data['nama_blkg']
+                gelar       = guruform.cleaned_data['gelar']
+                my_group = Group.objects.get(name='teachers') 
+                my_group.user_set.add(user_id)
+                
+                guruform   = Guru(user_id=user_id, nik=nik, kode=kode, nama=nama, nama_blkg=nama_blkg, gelar=gelar)
+                # formfinal.save()
+                guruform.save()
+
+                print("data guru masok")
+
+                user = authenticate(username=username, password=username)
+                login(request, user)
+                return redirect('home')
+
+    else:
+        userform = UserCreationForm()
+        guruform = Ftambahguru()
+    context = {
+            'userform': userform,
+            'guruform': guruform,
+
+    }
+    return render(request, 'registration/signup.html', context)
+
+def group_required(*group_names):
+    """Requires user membership in at least one of the groups passed in."""
+    # def in_groups(u):
+    #     if u.is_authenticated():
+    #         if bool(u.groups.filter(name__in=group_names)):
+    #             return True
+    #     return False
+
+    # return user_passes_test(in_groups, login_url='403')
+    def in_group(u):
+        return u.is_active and (u.is_superuser or bool(u.groups.filter(name__in=group_names)))
+    return user_passes_test(in_group)
+    
+@group_required('students', 'teachers')
+def login_success(request):
+    """
+    Redirects users based on whether they are in the admins group
+    """
+    if request.user.groups.filter(name="students").exists():
+        # user is an admin
+        print("berhasil masuk index user")
+        return redirect("generalweb:index")
+    if request.user.groups.filter(name="teachers").exists():
+        # user is an admin
+        print("berhasil masuk index guru")
+        return redirect("generalweb:index")
+    else:
+        print("masuk admin")
+        return redirect("index")
+############ base #############
+@user_passes_test(lambda u: u.is_superuser)
+def base(request):
+    return render(request, 'penjadwalan/base.html')
+@user_passes_test(lambda u: u.is_superuser)
+def index(request):
+    return render(request, 'penjadwalan/index.html')
+
+@user_passes_test(lambda u: u.is_superuser)
+def data_tables(request):
+    return render(request, 'penjadwalan/tables-data.html', context)
+
+############ guru #############
+@user_passes_test(lambda u: u.is_superuser)
+def data_guru(request):
+    
+    mguru = Guru.objects.all()
+
+    context={"data"     :  mguru, 
+            "title"     : "Guru",
+            }
+    return render(request, 'penjadwalan/data_guru.html', context)
+
+def tambah_guru(request):
+    add_form = Ftambahguru(request.POST or None)
+    if request.method == 'POST':
+       
+    
+        if add_form.is_valid():
+           add_form.save()
+           print ("INPUT !!!!")
+
+        return redirect('data_guru')
+    context = {
+        'add_form': add_form,
+    }
+    return render(request, 'penjadwalan/tambah_guru.html', context )
+
+def delete_guru(request, id_delete):
+    Guru.objects.filter(id=id_delete).delete()
+    return redirect('data_guru')
+
+def update_guru(request, id_update):
+    guru_update = Guru.objects.get(id=id_update)
+    data = {
+        'nik'           : guru_update.nik,
+        'kode'          : guru_update.kode,
+        'nama'          : guru_update.nama,
+        'nama_blkg'     : guru_update.nama_blkg,
+        'gelar'         : guru_update.gelar,
+    }
+    add_form = Ftambahguru(request.POST or None, initial=data, instance=guru_update)
+    
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("save!!!!")
+        else:
+            print (add_form.errors)
+
+        return redirect('data_guru')
+ 
+    context = {
+        'add_form': add_form,
+    }
+    return render(request, 'penjadwalan/tambah_guru.html', context )
+
+############ Kelas #############
+
+def data_kelas(request):
+    
+    mkelas = Kelas.objects.all()
+
+    context={"data"     :  mkelas, 
+            "title"     : "Kelas",
+            }
+    return render(request, 'penjadwalan/data_kelas.html', context)
+
+def tambah_kelas(request):
+    add_form = Ftambahkelas(request.POST or None)
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("INPUT !!!!")
+
+        return redirect('data_kelas')
+    context = {
+        'add_form'  : add_form,
+    }
+    return render(request, 'penjadwalan/tambah_kelas.html', context )
+
+def update_kelas(request, id_update):
+    kelas_update = Kelas.objects.get(id=id_update)
+    data = {
+        'kode_kode_kelas': kelas_update.kode_kelas,
+        'kelas  '        : kelas_update.kelas,
+        'kapasitas'      : kelas_update.kapasitas,
+        'keterangan'     : kelas_update.keterangan,
+        
+    }
+    add_form = Ftambahkelas(request.POST or None, initial=data, instance=kelas_update)
+    
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("save!!!!")
+        else:
+            print (add_form.errors)
+
+        return redirect('data_kelas')
+ 
+    context = {
+        'add_form': add_form,
+    }
+    return render(request, 'penjadwalan/tambah_kelas.html', context )
+
+
+def delete_kelas(request, id_delete):
+    Kelas.objects.filter(id=id_delete).delete()
+    return redirect('data_kelas')
+
+
+############ mata pelajaran #############
+
+def data_mapel(request):
+    mmapel = Mapel.objects.all()
+    print(mmapel)
+    context={"data" :  mmapel,
+            "title" : 'Mata Pelajaran',
+            }
+    return render(request, 'penjadwalan/data_mapel.html', context)
+
+def tambah_mapel(request):
+    add_form = Ftambahmapel(request.POST or None)
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("INPUT !!!!")
+
+        return redirect('data_mapel')
+    context = {
+        'add_form': add_form,
+    }
+    return render(request, 'penjadwalan/tambah_mapel.html', context )   
+
+def update_mapel(request, id_update):
+
+    mapel_update = Mapel.objects.get(id=id_update)
+
+    data = {
+        'kode'          : mapel_update.kode_mapel,
+        'nama'          : mapel_update.nama,
+        'sksFk'         : mapel_update.sksFk_id,
+
+    }
+    add_form = Ftambahmapel(request.POST or None, initial=data, instance=mapel_update)
+    
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("save!!!!")
+        else:
+            print (add_form.errors)
+
+        return redirect('data_mapel')
+ 
+    context = {
+        'add_form': add_form,
+    }
+    return render(request, 'penjadwalan/tambah_mapel.html', context )
+
+def delete_mapel(request, id_delete):
+    Mapel.objects.filter(id=id_delete).delete()
+    return redirect('data_mapel')
+
+########## jampel ############
+
+def data_jampel(request):
+    mjampel = Hari_has_jam.objects.all()
+    context={"data"     :  mjampel,
+            "title"     : 'Jam Pelajaran',
+            }
+    return render(request, 'penjadwalan/data_jampel.html', context)
+
+def tambah_jampel(request):
+    add_form = Ftambahjampel(request.POST or None)
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("INPUT !!!!")
+
+        return redirect('data_jampel')
+    context = {
+        'add_form': add_form,
+    }
+    return render(request, 'penjadwalan/tambah_jampel.html', context ) 
+
+def update_jampel(request, id_update):
+
+    jampel_update = Hari_has_jam.objects.get(id=id_update)
+
+    data = {
+        'kode_jampel'   : jampel_update.kode_jampel,
+        'hariFk'        : jampel_update.hariFk,
+        'jamFk'         : jampel_update.jamFk,
+
+    }
+    add_form = Ftambahjampel(request.POST or None, initial=data, instance=jampel_update)
+    
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("save!!!!")
+        else:
+            print (add_form.errors)
+
+        return redirect('data_jampel')
+ 
+    context = {
+        'add_form': add_form,
+    }
+    return render(request, 'penjadwalan/tambah_jampel.html', context )
+
+def delete_jampel(request, id_delete):
+    Hari_has_jam.objects.filter(id=id_delete).delete()
+    return redirect('data_jampel')
+
+
+########## jadwal ############
+def kelas_dropdown(request):
+    # kelas_id = request.GET.get('kelas')
+    mkelas = Kelas.objects.all()
+    print(mkelas)
+    context = {
+                "data" : mkelas,
+                }
+    return render (request, "penjadwalan/data_jadwal.html", context)
+        
+
+def semuaJadwal(request,kelas_id):
+ 
+    hari = [1, 2, 3, 4, 5, 6]
+    jam = [1, 2, 3, 4, 5, 6, 7, 8]
+    kelas = Kelas.objects.all()
+    kelas_saat_ini = Kelas.objects.filter(id = kelas_id)
+    jadwal = Penjadwalan.objects.filter(kelas = kelas_id)
+
+    list_jadwal = []
+    for i in jam:
+        for x in hari:
+            jadwalku = jadwal.filter(jamke=i,hari=x)
+            if jadwalku:
+                for y in jadwalku:
+                    if y.hari == 1:
+                        if y.jamke == i:
+                            mapel_senin = y.mapel
+                        else:
+                            mapel_senin = '-'
+                    if y.hari == 2:
+                        if y.jamke == i:
+                            mapel_selasa = y.mapel
+                        else:
+                            mapel_selasa = '-'
+                    if y.hari == 3:
+                        if y.jamke == i:
+                            mapel_rabu = y.mapel
+                        else:
+                            mapel_rabu = '-'
+                    if y.hari == 4:
+                        if y.jamke == i:
+                            mapel_kamis = y.mapel
+                        else:
+                            mapel_kamis = '-'
+                    if y.hari == 5:
+                        if y.jamke == i:
+                            mapel_jumat = y.mapel
+                        else:
+                            mapel_jumat = '-'
+                    if y.hari == 6:
+                        if y.jamke == i:
+                            mapel_sabtu = y.mapel
+                        else:
+                            mapel_sabtu = '-'
+            else:
+                if x == 1:
+                    mapel_senin = '-'
+                if x == 2:
+                    mapel_selasa = '-'
+                if x == 3:
+                    mapel_rabu = '-'
+                if x == 4:
+                    mapel_kamis = '-'
+                if x == 5: 
+                    mapel_jumat = '-'
+                if x == 6:
+                    mapel_sabtu = '-'
+    # url = request.build_absolute_uri
+    # split_url = url.split("/")[-3:]
+    # list_url = []
+    # for i in split_url:
+    #     list_url = list_url.append(i)
+    #     return list_url
+
+        list_jadwal.append({
+            "mapel_senin"   : mapel_senin,
+            "mapel_selasa"  : mapel_selasa,
+            "mapel_rabu"    : mapel_rabu,
+            "mapel_kamis"   : mapel_kamis,
+            "mapel_jumat"   : mapel_jumat,
+            "mapel_sabtu"   : mapel_sabtu,
+            "kelas"         : kelas_id,
+            
+
+        })
+    print(list_jadwal)
+    
+    context = {
+        "senin"     : mapel_senin,
+        "selasa"    : mapel_selasa, 
+        "rabu"      : mapel_rabu,
+        "kamis"     : mapel_kamis,
+        "jumat"     : mapel_jumat,
+        "sabtu"     : mapel_sabtu,
+        "jadwal"    : list_jadwal,
+        "data"      : kelas,
+        "kelas_saat_ini" : kelas_saat_ini,
+    }
+    
+    template = 'penjadwalan/data_jadwal.html'
+    return render (request, template, context)
+
+
+def tambah_jadwal(request, kelas, hari, jamke):
+    # url_jadwal = request.build_absolute_uri() 
+    # get_info = Penjadwalan.objects.get(kelas=kelas, jamke = jamke)
+    back_jadwal = Penjadwalan.objects.filter(kelas = kelas)
+    
+    url = str(request.get_full_path) 
+    b = url.split('/')
+    print (b)
+    print(b[5])
+    c = b[5]
+    d = c.split("'")
+    print(d[0])
+    # print(d)
+    add_form = Ftambahjadwal(request.POST or None, initial={'kelas': b[3], 'hari' : b[4], 'jamke' : d[0]})
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("INPUT !!!!")
+
+        return redirect('jadwal', kelas_id = kelas)
+    context = {
+        
+        'add_form'      : add_form,
+        'back_jadwal'   : back_jadwal,
+    }
+    return render(request, 'penjadwalan/tambah_jadwal.html', context )   
+
+def update_jadwal(request, kelas, hari, jamke):
+    add_form = Ftambahjadwal(request.POST or None)
+    jadwal_update = Penjadwalan.objects.get(kelas = kelas, hari = hari, jamke = jamke)
+    jadwal = Penjadwalan.objects.filter(kelas = kelas, hari = hari, jamke = jamke)
+    back_jadwal = Penjadwalan.objects.filter(kelas = kelas)
+
+
+
+    data = {
+        'kode_jampel'   : jadwal_update.kode_jadwal,
+        'kelas'         : jadwal_update.kelas,
+        'hari'          : jadwal_update.hari,
+        'jamke'         : jadwal_update.jamke,
+        'guru'          : jadwal_update.guru,
+        'mapel'         : jadwal_update.mapel,
+        
+    }
+    add_form = Ftambahjadwal(request.POST or None, initial=data, instance=jadwal_update)
+    
+    if request.method == 'POST':
+        if add_form.is_valid():
+           add_form.save()
+           print ("save!!!!")
+        else:
+            print (add_form.errors)
+
+        return redirect('jadwal', kelas_id = kelas)
+ 
+    context = {
+        'add_form'      : add_form,
+        'back_jadwal'   : back_jadwal,
+
+    }
+    return render(request, 'penjadwalan/update_jadwal.html', context )
+
+
+
+
+
+
+
+
+
+def index_coba(request):
+    context = {
+        'page title' : 'HOME',
+    }
+    # print(request.user)
+    username_sel = 'selpong'
+    password_sel = 'selvia123'
+    user = authenticate(request, username = username_sel, password = password_sel)
+    print(user)
+    login(request, user)
+    return render(request, 'index_coba.html', context)
+
+# selected_kelas = Kelas.objects.get(pk = 1)
+# kelas_id = 1
+# mkelas = Kelas.objects.filter(id = kelas_id)
+# for i in mkelas:
+#     print (i.id)

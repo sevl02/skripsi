@@ -1,0 +1,128 @@
+{% load crispy_forms_tags %}
+<!-- Yang atas itu -->
+<!-- <html>
+   <body>
+      
+      <form name = "form" action = "{% url 'login' %}" method = "POST" >{% csrf_token %}
+         
+         <div style = "max-width:470px;">
+            <center> 
+               <input type = "text" style = "margin-left:20%;" 
+                  placeholder = "username" name = "username" />
+            </center>
+         </div>
+			
+         <br>
+         
+         <div style = "max-width:470px;">
+            <center>
+               <input type = "password" style = "margin-left:20%;" 
+                  placeholder = "password" name = "password" />
+            </center>
+         </div>
+			
+         <br>
+         
+         <div style = "max-width:470px;">
+            <center> 
+            
+               <button style = "border:0px; background-color:#4285F4; margin-top:8%;
+                  height:35px; width:80%;margin-left:19%;" type = "submit" 
+                  value = "Login" >
+                  <strong>Login</strong>
+               </button>
+               
+            </center>
+         </div>
+         
+      </form>
+      
+   </body>
+</html> -->
+
+
+
+
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+{% load static%}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>LOGIN ADMIN</title>
+    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/themify-icons/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/flag-icon-css/css/flag-icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/selectFX/css/cs-skin-elastic.css' %}">
+    
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+
+
+
+</head>
+
+<body class="bg-flat-color-5">
+
+
+    <div class="sufee-login d-flex align-content-center flex-wrap">
+        <div class="container">
+            <div class="login-content">
+                <div class="login-logo">
+                  
+                        <img style="width:150px" class="align-content" src="{% static 'images/mimpkkartasura.png' %}" alt="">
+                        <h3>HALAMAN LOGIN</h3>
+                   
+                </div>
+                <!-- https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html -->
+                <!-- ^ referensi -->
+                <div class="login-form">
+                        <form name = "form" action = "{% url 'login' %}" method = "POST" >
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <!-- Tambahkan atas itu -->
+           
+                        <!-- <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" placeholder="Username" name="username"/>
+                        </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" placeholder="Password" name="password"/>
+                        </div> -->
+                                <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30" value="Login">Sign in</button>
+                                
+                                
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{%static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{%static 'vendors/popper.js/dist/umd/popper.min.js' %}"></script>
+    <script src="{%static 'vendors/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{%static 'js/main.js' %}"></script>
+
+
+</body>
+
+</html>

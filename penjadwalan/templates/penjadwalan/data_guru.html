@@ -1,0 +1,63 @@
+{% extends 'penjadwalan/base.html' %}
+{% load static %}
+    
+            {% block link %}
+               <h1>
+                    <a href="{% url 'index' %}">Dashboard</a>
+                    / <b> <a href="{% url 'data_guru' %}">Data Guru</a>  </b> 
+
+               </h1>             
+            {% endblock link %}
+           {% block table %} 
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        
+                            <a href="{% url 'tambah_guru' %}"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data {{ title }}</button>
+                        
+                        <div class="card"></a>
+                            <div class="card-header">
+                                <strong class="card-title">Data {{ title }}</strong>
+                            </div>
+                            
+                            <div class="card-body">
+                                <table id="guru" class="table table-striped table-bordered" >
+                                    <thead>
+                                        <tr>
+                                            <th>NO</th>
+                                            <th>NIK</th>
+                                            <th>Nama</th>
+                                            <th>Kode Nama</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+
+                                    <!-- {% for x in data %}
+                                            {{x.0}}
+                                        {%endfor%} -->
+                                    <tbody>
+                                        {% for x in data %}
+                                        <tr>
+                                            <!-- <td>{{ x.0 }}</td>  -->
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ x.nik }}</td>
+                                            <td>{{ x.nama }} {{ x.nama_blkg }} {{x.gelar}}</td>
+                                            <td>{{ x.kode }}</td>
+                                            <td><a href="{% url 'update_guru' x.id %}"><button class="btn btn-primary"><i class="fa fa-pencil"></i></button></a> 
+                                                <a href="{% url 'delete_guru' x.id %}" class="confirm-delete"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></a></td>
+                                        </tr>
+                                        {% endfor %}
+                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!-- .animated -->
+        {% endblock%}  
+
+   
