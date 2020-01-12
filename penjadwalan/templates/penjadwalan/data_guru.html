@@ -14,7 +14,7 @@
 
                     <div class="col-md-12">
                         
-                            <a href="{% url 'tambah_guru' %}"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data {{ title }}</button>
+                            <a href="{% url 'signup' %}"><button class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Akun dan Data {{ title }}</button>
                         
                         <div class="card"></a>
                             <div class="card-header">
@@ -28,7 +28,9 @@
                                             <th>NO</th>
                                             <th>NIK</th>
                                             <th>Nama</th>
+                                            <th>Jml Mengajar/Smt</th>
                                             <th>Kode Nama</th>
+                                            
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -38,15 +40,19 @@
                                         {%endfor%} -->
                                     <tbody>
                                         {% for x in data %}
+                                        
+
                                         <tr>
                                             <!-- <td>{{ x.0 }}</td>  -->
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ x.nik }}</td>
                                             <td>{{ x.nama }} {{ x.nama_blkg }} {{x.gelar}}</td>
+                                            <td>{{ x.jumlah_jam }} </td>
                                             <td>{{ x.kode }}</td>
                                             <td><a href="{% url 'update_guru' x.id %}"><button class="btn btn-primary"><i class="fa fa-pencil"></i></button></a> 
-                                                <a href="{% url 'delete_guru' x.id %}" class="confirm-delete"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></a></td>
+                                                <a href="" class="confirm-delete"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></a></td>
                                         </tr>
+                                        
                                         {% endfor %}
                        
                                     </tbody>

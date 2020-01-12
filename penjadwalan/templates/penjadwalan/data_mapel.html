@@ -1,5 +1,8 @@
 {% extends 'penjadwalan/base.html' %}
 {% load static %}
+            {% block judul %}
+            <title>Daftar Mata Pelajaran | MIM PK Kartasura</title>
+            {% endblock judul%}
 
             {% block link %}
             <h1>
@@ -23,13 +26,12 @@
                             </div>
                             
                             <div class="card-body">
-                                <table id="mapel" class="table table-striped table-bordered">
+                                <table id="senin" class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
                                             <th>NO</th>
                                             <th>Mata Pelajaran</th>
                                             <th>Kode</th>
-                                            <th>Jumlah SKS</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -44,7 +46,6 @@
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ x.nama }}</td>
                                             <td>{{ x.kode_mapel }}</td>
-                                            <td>{{ x.sksFk }}</td>
                                             <td><a href="{% url 'update_mapel' x.id %}"><button class="btn btn-primary"><i class="fa fa-pencil"></i></button></a> 
                                                 <a href="{% url 'delete_mapel' x.id %}" class="confirm-delete"><button class="btn btn-danger"><i class="fa fa-trash"></i></button></a></td>
                                         </tr>

@@ -6,7 +6,10 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Sistem Penjadwalan | MIM PK KARTASURA</title>
+    {% block judul %}
+    <title>Sistem Penjadwalan | MIM PK Kartasura</title>
+    {% endblock judul%}
+
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -68,7 +71,10 @@
                     </li> -->
                     <li {% if request.resolver_match.url_name == 'data_guru' %}class="active"{% endif %} >
                             <a href="{% url 'data_guru' %}"> <i class="menu-icon fa fa-table"></i>Guru </a>
-                    </li>                   
+                    </li>   
+                    <li {% if request.resolver_match.url_name == 'data_siswa' %}class="active"{% endif %} >
+                        <a href="{% url 'data_siswa' %}"> <i class="menu-icon fa fa-table"></i>Siswa </a>
+                </li>                 
                     <!-- <li class = "" >
                             <a href="{% url 'data_mapel' %}"> <i class="menu-icon fa fa-table"></i>Siswa </a>
                     </li> -->
@@ -78,28 +84,44 @@
                     <li {% if request.resolver_match.url_name == 'data_kelas' %}class="active"{% endif %}>
                             <a href="{% url 'data_kelas' %}"> <i class="menu-icon fa fa-table"></i>Kelas </a>
                     </li>
-                    <!-- <li {% if request.resolver_match.url_name == 'data_jampel' %}class="active"{% endif %} >
-                            <a href="{% url 'data_jampel' %}"> <i class="menu-icon fa fa-table"></i>Jam Pelajaran </a>
-                    </li>
-                     -->
+            
 
-
-                    <!-- end of data -->
-                     
-     
-
-                    <h3 class="menu-title">PENJADAWALAN</h3><!-- /.menu-title -->
+                <h3 class="menu-title">PENJADAWALAN</h3><!-- /.menu-title -->
 
                     <li {% if request.resolver_match.url_name == 'data_jadwal' %}class="active"{% endif %}>
                             <a href="{% url 'data_jadwal' %}"> 
                             <i class="menu-icon fa fa-tasks"></i>Jadwal Pelajaran</a>
                     </li>
 
-                    <li {% if request.resolver_match.url_name == 'data_jadwal' %}class=""{% endif %}>
-                        <a href="{% url 'data_jadwal' %}"> 
+                    <li {% if request.resolver_match.url_name == 'tambah_jadwal2' %}class=""{% endif %}>
+                        <a href="{% url 'tambah_jadwal2' %}"> 
                         <i class="menu-icon fa fa-tasks"></i>Tambah Jadwal</a>
-                </li>
-                   
+                    </li>
+                
+                    <h3 class="menu-title">Lain-lain</h3><!-- /.menu-title -->
+
+                    <li {% if request.resolver_match.url_name == 'data_surat_ijin' %}class="active"{% endif %}>
+                            <a href="{% url 'data_surat_ijin' %}"> 
+                            <i class="menu-icon fa fa-tasks"></i>Surat Ijin</a>
+                    </li>
+
+                    <li {% if request.resolver_match.url_name == 'data_pengumuman' %}class="active"{% endif %}>
+                        <a href="{% url 'data_pengumuman' %}"> 
+                        <i class="menu-icon fa fa-tasks"></i>Pengumuman</a>
+                     </li>
+                    
+                <h3 class="menu-title">AKUN</h3><!-- /.menu-title -->
+
+                    <li {% if request.resolver_match.url_name == 'signup' %}class="active"{% endif %}>
+                            <a href="{% url 'signup' %}"> 
+                            <i class="menu-icon fa fa-tasks"></i>Akun Guru</a>
+                    </li>
+
+                    <li {% if request.resolver_match.url_name == 'signup_siswa' %}class=""{% endif %}>
+                        <a href="{% url 'signup_siswa' %}"> 
+                        <i class="menu-icon fa fa-tasks"></i>Akun Siswa</a>
+                     </li>
+
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
@@ -127,7 +149,7 @@
                             </form>
                         </div>
 
-                        <div class="dropdown for-notification">
+                        <!-- <div class="dropdown for-notification">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell"></i>
                                 <span class="count bg-danger">5</span>
@@ -147,15 +169,10 @@
                                 <p>Server #3 overloaded.</p>
                             </a>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="dropdown for-message">
-                            <button class="btn btn-secondary dropdown-toggle" type="button"
-                                id="message"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ti-email"></i>
-                                <span class="count bg-primary">9</span>
-                            </button>
+                            
                             <div class="dropdown-menu" aria-labelledby="message">
                                 <p class="red">You have 4 Mails</p>
                                 <a class="dropdown-item media bg-flat-color-1" href="#">

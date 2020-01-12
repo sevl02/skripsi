@@ -1,6 +1,47 @@
 from django import forms
 from .models import *
 
+class Fpengumuman(forms.ModelForm):
+    class Meta:
+        model   = Pengumuman
+        fields  = [ 'penerima',
+                    'judul',
+                    'isi',
+                    'tgl_post',
+                    'dokumen'
+        ]
+class Ftambahsiswa2(forms.ModelForm):        
+    class Meta:
+        model   = Siswa
+        fields  = [
+                    'user',
+                    'nis',
+                    'nama',
+                    'nama_blkg',
+                    'kelas',
+                  ]   
+                  
+class Ftambahsiswa(forms.ModelForm):        
+    class Meta:
+        model   = Siswa
+        fields  = [
+                    'nis',
+                    'nama',
+                    'nama_blkg',
+                    'kelas',
+                  ]   
+class Ftambahguru2(forms.ModelForm):        
+    class Meta:
+        model   = Guru
+        fields  = [
+                   'user',
+                   'nik',
+                   'kode',
+                   'nama',
+                   'nama_blkg', 
+                   'gelar',
+                  ]     
+ 
 class Ftambahguru(forms.ModelForm):        
     class Meta:
         model   = Guru

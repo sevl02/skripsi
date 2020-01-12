@@ -11,19 +11,20 @@
 
 {% block table %} 
 <label for="team_name"> {{ ambil_jam}}</label>
+{% include 'penjadwalan/messages.html' %}
+
 <form action="" method="post" class="form-group" >
     {% csrf_token %}
     <table>
         tesssss
         {{ request.get_full_path }}
-        
-        
-   
         {{ add_form|crispy }}
     </table>
    
     <div>
         <button class="btn btn-success" type="submit"> Input Data </button>
-    
     </div>
+
+</form>
+
 {% endblock table %}

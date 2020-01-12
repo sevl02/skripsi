@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from .models import *
 from django.contrib.auth.models import User, Group
 # Create your models here.
@@ -23,6 +24,10 @@ JAMKE = (
     (8, '11.20'),
     (9, '12.30'),
     (0, 'ISTIRAHAT'),
+)
+PENERIMA = (
+    (1, 'GURU'),
+    (2, 'SISWA'),
 )
 class Guru(models.Model):
     user        = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -73,7 +78,7 @@ class Siswa(models.Model):
     nis         = models.CharField(unique=True, max_length=15)
     nama        = models.CharField(max_length=50)
     nama_blkg   = models.CharField(max_length=50)
-    Kelas       = models.ForeignKey(Kelas, max_length=10, on_delete=models.CASCADE)
+    kelas       = models.ForeignKey(Kelas, max_length=10, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{} {}'.format(self.nis, self.nama)
@@ -101,6 +106,28 @@ class Penjadwalan(models.Model):
     guru          = models.ForeignKey(Guru, on_delete=models.CASCADE)
     mapel         = models.ForeignKey(Mapel, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return '{} | {}'.format(self.guru, self.mapel)
+
+class Pengumuman(models.Model):
+    penerima    = models.PositiveIntegerField(default=1, choices= PENERIMA)
+    judul       = models.CharField(max_length=200)
+    isi         = models.TextField()
+    tgl_post    = models.DateTimeField(default=timezone.now)
+    dokumen     = models.ImageField(upload_to = 'static/doc_pengumuman/', default = 'pic_folder/None/no-img.jpg')
+    def __str__(self):
+        return self.judul
+    
+class Surat_ijin(models.Model):
+    pengirim    = models.CharField(max_length=200)
+    judul       = models.CharField(max_length=200)
+    isi         = models.TextField()
+    tgl_post    = models.DateTimeField(default=timezone.now)
+    dokumen     = models.ImageField(upload_to = 'static/doc_suratijin/', default = 'pic_folder/None/no-img.jpg')
+
+
+    def __str__(self):
+        return '{} {}'.format(self.pengirim, self.judul)
 
     
     

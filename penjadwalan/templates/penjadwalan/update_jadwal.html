@@ -15,15 +15,22 @@
 {% endblock link %}
 
 {% block table %} 
-
+{% include 'penjadwalan/messages.html' %}
 <form action="" method="post" class="form-group" >
         {% csrf_token %}
         <table>
             {{ add_form|crispy }}
-        </table>
+        </table> 
        
         <div>
             <button class="btn btn-success" type="submit"> Input Data </button>
-        
         </div>
+</form>
+<div>
+    <a href="{% url 'delete_jadwal' i.id %"><button class="btn btn-error" type=""> Hapus </button></a>
+</div>
 {% endblock table %}
+
+<!-- def delete_mapel(request, id_delete):
+    Mapel.objects.filter(id=id_delete).delete()
+    return redirect('data_mapel') -->

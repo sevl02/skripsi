@@ -6,7 +6,7 @@ from django.urls import path,include
 urlpatterns = [
     # admin
     path('login_success', views.login_success, name='login_success'),
-    path('index', views.index_coba, name='index'),
+    # path('index', views.index_coba, name='index'),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     # path('login/', views.page_login, name='page_login'),
@@ -19,7 +19,10 @@ urlpatterns = [
     path('user/',include('userweb.urls', namespace='generalweb')),
     # path('',include('userweb.urls', namespace='generalweb')),
 
+    # sign up account
     path('signup', views.signup, name='signup'),
+    path('signup-siswa', views.signup_siswa, name='signup_siswa'),
+
 
 ]
  

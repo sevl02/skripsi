@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="icon" href="{% static 'userweb/img/favicon.png' %}" type="image/png" />
+    <title>Halaman Akun {{user}}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'userweb/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'userweb/css/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'userweb/css/themify-icons.css' %}" />
+    <link rel="stylesheet" href="{% static 'userweb/vendors/owl-carousel/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'userweb/vendors/nice-select/css/nice-select.css' %}" />
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'userweb/css/style.css' %}" />
+    <style>
+      #logout {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!--================ Start Header Menu Area =================-->
+    <header class="header_area white-header">
+      <div class="main_menu">
+        <div class="search_input" id="search_input_box">
+          <div class="container">
+            <form class="d-flex justify-content-between" method="" action="">
+              <input
+                type="text"
+                class="form-control"
+                id="search_input"
+                placeholder="Search Here"
+              />
+              <button type="submit" class="btn"></button>
+              <span
+                class="ti-close"
+                id="close_search"
+                title="Close Search"
+              ></span>
+            </form>
+          </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <a class="navbar-brand" href="index.html">
+              <img class="logo-2" src="img/logo2.png" alt="" />
+            </a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="icon-bar"></span> <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div
+              class="collapse navbar-collapse offset"
+              id="navbarSupportedContent"
+            >
+              <ul class="nav navbar-nav menu_nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'userweb:index' %}">Home</a>
+                </li>
+                
+                <li class="nav-item submenu active">
+                  <a
+                    href="#"
+                    class="nav-link dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    >Pengumuman</a
+                  >
+                  <ul class="dropdown-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="blog.html">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="single-blog.html"
+                        >Blog Details</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Kirim Surat Ijin</a>
+                </li>
+                <li class="nav-item">
+                </li>
+                <li class="nav-item submenu dropdown">
+                  <a
+                    href="#"
+                    class="nav-link dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    >Hai, {{user}}      <i class="fa fa-caret-down"></i></a>
+              
+              
+                  <ul class="dropdown-menu">
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'logout' %}" id="logout">Keluar</a>
+                    </li>
+                    
+                  </ul>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!--================ End Header Menu Area =================-->
+
+    <!--================Home Banner Area =================-->
+    <section class="banner_area">
+      <div class="banner_inner d-flex align-items-center">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-6">
+              <div class="banner_content text-center">
+                <h2>{{ title }}</h2>
+                <div class="page_link">
+                  <a href="index.html">Home</a>
+                  <a href="blog.html">Blog</a>
+                  <a href="single-blog.html">Blog Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--================End Home Banner Area =================-->
+
+    <!--================Blog Area =================-->
+    {% block pengumuman %}
+    {% endblock pengumuman %}
+    <!--================Blog Area =================-->
+
+    <!--================ Start footer Area  =================-->
+    <footer class="footer-control">
+     </footer>
+          <!--================ End footer Area  =================-->
+      
+          <!-- Optional JavaScript -->
+          <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="{% static 'userweb/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'userweb/js/popper.js' %}"></script>
+    <script src="{% static 'userweb/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'userweb/vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'userweb/vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'userweb/js/owl-carousel-thumb.min.js' %}"></script>
+    <script src="{% static 'userweb/js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'userweb/js/mail-script.js' %}"></script>
+    <!--gmaps Js-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+    <script src="{% static 'userweb/js/gmaps.min.js' %}"></script>
+    <script src="{% static 'userweb/js/theme.js' %}"></script>
+  </body>
+</html>

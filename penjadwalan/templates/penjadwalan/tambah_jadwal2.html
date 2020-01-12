@@ -1,0 +1,41 @@
+
+{% extends 'penjadwalan/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+           {% block table %} 
+
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        {% include 'penjadwalan/messages.html' %}
+                        <div class="card"></a>
+                            <div class="card-header">
+                                <strong class="card-title">Tambah Data Jadwal</strong>
+                            </div>
+                            
+                            <div class="card-body">
+
+                                <form action="" method="post" class="form-group" >
+                                    {% csrf_token %}
+                                    <table>
+                                        {{ add_form|crispy }}
+                                    </table>
+                                   
+                                    <div>
+                                        <button class="btn btn-success" type="submit"> Input Data </button>
+                                        
+                                    </div>
+                                        
+                                    
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!-- .animated -->
+        {% endblock%}    
+        

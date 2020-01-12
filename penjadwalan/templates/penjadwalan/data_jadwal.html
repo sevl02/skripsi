@@ -2,9 +2,19 @@
 {% extends 'penjadwalan/base.html' %}
 {% load static %}
 
+            {% block judul %}
+            {% for i in kelas_saat_ini %}
+            <title>Data Jadwal Kelas {{i.kelas}}</title>
+            {% endfor %}
+            {% endblock judul%}
+
    
-            {% block link %}
+            {% block link %} 
             <style>
+              .button3:hover {
+                background-color: #f44336;
+                color: white;
+              }
             body, html {
                 height: 100%;
                 margin: 0;
@@ -61,11 +71,13 @@
 
 
          <P>
+          {% include 'penjadwalan/messages.html' %}
+
            <form method='post' action='' >
               <select class="btn btn-info dropdown-toggle"  id="pilkelas" name="URL" onchange="window.location.href= this.form.URL.options[this.form.URL.selectedIndex].value">
                   <option value='' >Pilih Kelas</option>
                   {% for i in data %}
-                      <option value="{% url 'jadwal' i.id %}">{{i.kelas|upper}} </a></option>
+                      <option value="{% url 'jadwal' i.id %}"> {{i.kelas|upper}} </a></option>
                   {% endfor %}
               </select>
           </form>
@@ -78,7 +90,7 @@
               </div>
             
             <div class="card-body">
-        <table id="jadwal" class="table table-striped table-bordered" >
+        <table id="senin" class="table table-striped table-bordered" >
             <thead>
                 <tr>
                         <th>Jam</th>
@@ -92,28 +104,64 @@
                 </tr>
             </thead>         
             <tbody>
-               
-                {% for x in jadwal %}
+              {% for x in jadwal %}
                 <tr>
                     <td>{{forloop.counter}}</td> 
+
+                    <!--senin -->
                     {% if x.mapel_senin == '-' %}
-                    
-                        </script> 
                           <td><a href="{% url 'tambah_jadwal' kelas=x.kelas hari=1 jamke=forloop.counter %}">{{x.mapel_senin}}</a></td> 
                     {% else %}
-                          <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=1 jamke=forloop.counter %}">{{x.mapel_senin}}</a></td> 
-                
-                   {% endif %}
-                   {% if x.mapel_selasa == '-' %}
-                          <td><a href="{% url 'tambah_jadwal' kelas=x.kelas hari=2 jamke=forloop.counter %}">{{x.mapel_selasa}}</a></td> 
+                          <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=1 jamke=forloop.counter %}">{{x.mapel_senin}} | {{x.guru_senin}}</a>     
+                            <br> <a href="{% url 'delete_jadwal' x.id_senin %}"><button class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button></a>
+                        </td>                
+                    {% endif %}
+                   
+                   <!-- selasa -->
+                    {% if x.mapel_selasa == '-' %}
+                      <td><a href="{% url 'tambah_jadwal' kelas=x.kelas hari=2 jamke=forloop.counter %}">{{x.mapel_selasa}}</a></td> 
                     {% else %}
-                    <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=2 jamke=forloop.counter %}">{{x.mapel_selasa}}</a></td> 
-                   {% endif %}
-                 
-                    <td>{{x.mapel_rabu}}</td> 
-                    <td>{{x.mapel_kamis}}</td> 
-                    <td>{{x.mapel_jumat}}</td> 
-                    <td>{{x.mapel_sabtu}}</td> 
+                      <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=2 jamke=forloop.counter %}">{{x.mapel_selasa}} | {{x.guru_selasa}}</a>
+                        <br> <a href="{% url 'delete_jadwal' x.id_selasa %}"><button class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button></a>
+                      </td> 
+                    {% endif %}
+                  
+                   <!-- rabu -->
+                    {% if x.mapel_rabu == '-' %}
+                      <td><a href="{% url 'tambah_jadwal' kelas=x.kelas hari=3 jamke=forloop.counter %}">{{x.mapel_rabu}}</a></td> 
+                    {% else %}
+                     <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=3 jamke=forloop.counter %}">{{x.mapel_rabu}} | {{x.guru_rabu}}</a>
+                      <br> <a href="{% url 'delete_jadwal' x.id_rabu %}"><button class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button></a>
+                    </td> 
+                    {% endif %}
+                  
+                   <!-- kamis -->
+                    {% if x.mapel_kamis == '-' %}
+                      <td><a href="{% url 'tambah_jadwal' kelas=x.kelas hari=4 jamke=forloop.counter %}">{{x.mapel_kamis}}</a></td> 
+                    {% else %}
+                      <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=4 jamke=forloop.counter %}">{{x.mapel_kamis}} | {{x.guru_kamis}}</a>
+                        <br> <a href="{% url 'delete_jadwal' x.id_kamis %}"><button class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button></a>
+                      </td> 
+                    {% endif %}
+                        
+                    <!-- jumat -->
+                    {% if x.mapel_jumat == '-' %}
+                      <td><a href="{% url 'tambah_jadwal' kelas=x.kelas hari=5 jamke=forloop.counter %}">{{x.mapel_jumat}}</a></td> 
+                    {% else %}
+                     <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=5 jamke=forloop.counter %}">{{x.mapel_jumat}} | {{x.guru_jumat}}</a>
+                      <br> <a href="{% url 'delete_jadwal' x.id_jumat %}"><button class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button></a>
+                    </td> 
+                    {% endif %}
+                    
+                    <!-- sabtu -->
+                    {% if x.mapel_sabtu == '-' %}
+                      <td><a href="{% url 'tambah_jadwal' kelas=x.kelas hari=6 jamke=forloop.counter %}">{{x.mapel_sabtu}}</a></td> 
+                    {% else %}
+                     <td><a href="{% url 'update_jadwal' kelas=x.kelas hari=6 jamke=forloop.counter %}">{{x.mapel_sabtu}} | {{x.guru_sabtu}}</a>
+                      <br> <a href="{% url 'delete_jadwal' x.id_sabtu %}"><button class="btn btn-warning btn-sm"><i class="fa fa-trash"></i></button></a>
+                    </td> 
+                    {% endif %}
+
                 </tr>
                 {% endfor %}                
             </tbody>
@@ -128,6 +176,7 @@
         {% endblock%}
 
         {% block js %}
+        
         <script>
         function openPage(pageName, elmnt, color) {
             // Hide all elements with class="tabcontent" by default */
