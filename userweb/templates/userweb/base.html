@@ -16,6 +16,13 @@
     <link rel="stylesheet" href="{% static 'userweb/css/themify-icons.css' %}" />
     <link rel="stylesheet" href="{% static 'userweb/vendors/owl-carousel/owl.carousel.min.css' %}" />
     <link rel="stylesheet" href="{% static 'userweb/vendors/nice-select/css/nice-select.css' %}" />
+
+    <!-- Data Tables -->
+    <link rel="stylesheet" type="text/css" href="{% static 'DataTables/css/datatables.min.css' %}"/> 
+    <script type="text/javascript" src="{% static 'DataTables/js/datatables.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'DataTables/images/sort_both.png' %}"/> 
+    <link rel="stylesheet" href="{% static 'DataTables/images/sort_asc.png' %}"/> 
+
     <!-- main css -->
     <link rel="stylesheet" href="{% static 'userweb/css/style.css' %}" />
     <style>
@@ -164,5 +171,35 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="{% static 'userweb/js/gmaps.min.js' %}"></script>
     <script src="{% static 'userweb/js/theme.js' %}"></script>
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>        
+    <script>
+    <script>
+      $(document).ready( function () {
+            $('#senin').DataTable(
+                {
+                   dom: 'B<"clear">lfrtip',
+                   buttons: {
+                            name: 'primary',
+                            buttons: ['excel', 'pdf', 'print']
+                    } }
+            );
+            $('#selasa').DataTable();
+            $('#rabu').DataTable();
+            $('#kamis').DataTable();
+            $('#jumat').DataTable();
+            $('#sabtu').DataTable();
+            $('#guru').DataTable();
+            $('#ruang').DataTable();
+            $('#jampel').DataTable();
+            $('#mapel').DataTable();
+
+        } );
+  </script>
   </body>
 </html>

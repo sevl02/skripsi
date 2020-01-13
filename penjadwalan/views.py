@@ -240,14 +240,14 @@ def data_siswa(request):
     kelas_selected = " "
     mkelas  = Kelas.objects.all().order_by('kelas')
     msiswa = Siswa.objects.all()
-    
 
+    
     context={
             "kelas_selected" : kelas_selected,
             "data"     : msiswa, 
             "kelas"     : mkelas,
             "title"     : "Siswa",
-            "kelas_saat_ini" : kelas_siswa,
+ 
             }
     return render(request, 'penjadwalan/data_siswa.html', context)
 
@@ -290,7 +290,7 @@ def data_guru(request):
     mjadwal = Penjadwalan.objects.all()
     mapel = Penjadwalan.objects.values('guru').annotate(Count('mapel'))
     # join1 = Penjadwalan.objects.selected_related('guru')
-    list_data=[]
+    list_guru=[]
     # print(mapel)
     # for i in mapel:
     #     # print(i.get('guru'))
@@ -319,19 +319,36 @@ def data_guru(request):
         #                 "jumlah_jam" : jumlah_jam,
         #                 "id"          : id_guru,
         # })
+    for x in mguru:
+        # print(x.id)
+        cekjadwal = Penjadwalan.objects.filter(guru=x.id)
+        a = Penjadwalan.objects.filter(guru__id=x.id)
+        print(len(a))
+        jumlah_makul=len(a)
+        nama_guru   = x.nama
+        nama_akhir  = x.nama_blkg
+        id_guru     = x.id
+        nik_guru    = x.nik
+        kode_nama   = x.kode
+        gelar       = x.gelar
+        username    = x.user
 
-    for i in mguru:
-        idguru = i.id
-        panggil_guru = Penjadwalan.objects.filter(guru=idguru)
-        # print(idguru)
-        # print(panggil_guru)
-        for j in panggil_guru:
-            print(j.mapel, i.nama) 
-    # print(list_data)
 
-    context={"data"     :  mguru, 
+        
+        list_guru.append({
+                        "nama_depan": nama_guru,
+                        "nama_akhir": nama_guru,
+                        "nik"       : nik_guru,
+                        "kode"      : kode_nama,
+                        "gelar"     : gelar,
+                        "jml_mapel" : jumlah_makul,
+                        "id"        : id_guru,
+                        "username"  : username,
+        })
+    print(list_guru)
+
+    context={"data"     : list_guru, 
             "title"     : "Guru",
-
             }
     return render(request, 'penjadwalan/data_guru.html', context)
 
@@ -568,6 +585,7 @@ def semuaJadwal(request,kelas_id):
     kelas_saat_ini = Kelas.objects.filter(id = kelas_id)
     jadwal = Penjadwalan.objects.filter(kelas = kelas_id)
 
+    id_jadwal_ku=0
     for i in jadwal:
         print("print id jadwal", i.id)
         id_jadwal_ku = i.id
@@ -748,7 +766,7 @@ def tambah_jadwal(request, kelas, hari, jamke):
                     if i == form_save.guru:
                         jadwal = Penjadwalan.objects.filter(guru=i)
                         print("jadwal guru bertabrakan")
-                        messages.error(request, 'Guru sudah mengajar di kelas ___ pada jam yang sama !')
+                        messages.error(request, 'Guru sudah mengajar di kelas lain pada jam yang sama !')
                         return redirect('tambah_jadwal', kelas = kelas, hari=hari, jamke=jamke )
                         break
                     else:
@@ -797,7 +815,7 @@ def tambah_jadwal2(request):
                     if i == value_form.guru:
                         jadwal = Penjadwalan.objects.filter(guru=i)
                         print("jadwal guru bertabrakan")
-                        messages.error(request, 'Guru sudah mengajar di kelas ___ pada jam yang sama !')
+                        messages.error(request, 'Guru sudah mengajar di kelas lain pada jam yang sama !')
                         return redirect('tambah_jadwal2')
                         break
                     else:
@@ -852,7 +870,7 @@ def update_jadwal(request, kelas, hari, jamke):
                 if i == form_save.guru:
                     jadwal = Penjadwalan.objects.filter(guru=i)
                     print("jadwal guru bertabrakan")
-                    messages.error(request, 'Guru sudah mengajar di kelas ___ pada jam yang sama !')
+                    messages.error(request, 'Guru sudah mengajar di kelas lain pada jam yang sama !')
                     return redirect('update_jadwal', kelas = kelas, hari=hari, jamke=jamke )
                     break
                 else:

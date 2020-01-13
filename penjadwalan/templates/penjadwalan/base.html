@@ -219,11 +219,7 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
-
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
-
-                            <a class="nav-link" href="{% url 'password_change' %}"><i class="fa fa-cog"></i> Settings</a>
+                            <a class="nav-link" href="{% url 'password_change' %}"><i class="fa fa-cog"></i> Ganti Password</a>
 
                             <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-cog"></i> Logout</a>
 
@@ -345,7 +341,7 @@
     </script>
     <script>
     $(document).on('click', '.confirm-delete', function(){
-                        return confirm('Are you sure you want to delete this?');
+                        return confirm('Apakah Anda yakin ingin menghapus ini?');
                     })
     </script>
     {% block js %}

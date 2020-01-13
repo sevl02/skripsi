@@ -198,6 +198,7 @@ def semuaJadwal(request,kelas_id):
         "jadwal"    : list_jadwal,
         "data"      : kelas,
         "kelas_saat_ini" : kelas_saat_ini, 
+        "title"     : "Jadwal Pelajaran"
     }
     
     template = 'userweb/user_lihat_jadwal.html'

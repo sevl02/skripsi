@@ -579,7 +579,7 @@ def semuaJadwal(request,kelas_id):
             "mapel_kamis"   : mapel_kamis,
             "mapel_jumat"   : mapel_jumat,
             "mapel_sabtu"   : mapel_sabtu,
-            "kelas"         : kelas_id,
+            "kelas"         : kelas_id, 
       
             
 
