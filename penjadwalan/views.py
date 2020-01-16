@@ -252,6 +252,7 @@ def data_siswa(request):
     return render(request, 'penjadwalan/data_siswa.html', context)
 
 
+@user_passes_test(lambda u: u.is_superuser)
 
 def update_siswa(request, id_update):
     siswa_update = Siswa.objects.get(id=id_update)
@@ -352,6 +353,7 @@ def data_guru(request):
             }
     return render(request, 'penjadwalan/data_guru.html', context)
 
+@user_passes_test(lambda u: u.is_superuser)
 def jml_pel(request, id_guru):
     mapel = Penjadwalan.objects.values('guru').annotate(Count('mapel'))
 
@@ -360,6 +362,8 @@ def jml_pel(request, id_guru):
         "mapel" : mapel,
     }
     return render(request, 'penjadwalan/data_guru.html', context)
+
+@user_passes_test(lambda u: u.is_superuser)
 
 def tambah_guru(request):
     add_form = Ftambahguru(request.POST or None)
@@ -376,9 +380,13 @@ def tambah_guru(request):
     }
     return render(request, 'penjadwalan/tambah_guru.html', context )
 
+@user_passes_test(lambda u: u.is_superuser)
+
 def delete_guru(request, username):
     User.objects.filter(username=username).delete() #username karena mau apus usernya cascade 
     return redirect('data_guru')
+
+@user_passes_test(lambda u: u.is_superuser)
 
 def update_guru(request, id_update):
     guru_update = Guru.objects.get(id=id_update)
@@ -408,6 +416,7 @@ def update_guru(request, id_update):
 
 ############ Kelas #############
 
+@user_passes_test(lambda u: u.is_superuser)
 def data_kelas(request):
     
     mkelas = Kelas.objects.all()
@@ -417,6 +426,7 @@ def data_kelas(request):
             }
     return render(request, 'penjadwalan/data_kelas.html', context)
 
+@user_passes_test(lambda u: u.is_superuser)
 def tambah_kelas(request):
     add_form = Ftambahkelas(request.POST or None)
     if request.method == 'POST':
@@ -430,6 +440,7 @@ def tambah_kelas(request):
     }
     return render(request, 'penjadwalan/tambah_kelas.html', context )
 
+@user_passes_test(lambda u: u.is_superuser)
 def update_kelas(request, id_update):
     kelas_update = Kelas.objects.get(id=id_update)
     data = {
@@ -455,7 +466,7 @@ def update_kelas(request, id_update):
     }
     return render(request, 'penjadwalan/tambah_kelas.html', context )
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def delete_kelas(request, id_delete):
     Kelas.objects.filter(id=id_delete).delete()
     return redirect('data_kelas')
@@ -463,6 +474,7 @@ def delete_kelas(request, id_delete):
 
 ############ mata pelajaran #############
 
+@user_passes_test(lambda u: u.is_superuser)
 def data_mapel(request):
     mmapel = Mapel.objects.all()
     print(mmapel)
@@ -471,6 +483,7 @@ def data_mapel(request):
             }
     return render(request, 'penjadwalan/data_mapel.html', context)
 
+@user_passes_test(lambda u: u.is_superuser)
 def tambah_mapel(request):
     add_form = Ftambahmapel(request.POST or None)
     if request.method == 'POST':
@@ -484,6 +497,7 @@ def tambah_mapel(request):
     }
     return render(request, 'penjadwalan/tambah_mapel.html', context )   
 
+@user_passes_test(lambda u: u.is_superuser)
 def update_mapel(request, id_update):
 
     mapel_update = Mapel.objects.get(id=id_update)
@@ -510,12 +524,14 @@ def update_mapel(request, id_update):
     }
     return render(request, 'penjadwalan/tambah_mapel.html', context )
 
+@user_passes_test(lambda u: u.is_superuser)
 def delete_mapel(request, id_delete):
     Mapel.objects.filter(id=id_delete).delete()
     return redirect('data_mapel')
 
 ########## jampel ############
 
+@user_passes_test(lambda u: u.is_superuser)
 def data_jampel(request):
     mjampel = Hari_has_jam.objects.all()
     context={"data"     :  mjampel,
@@ -523,6 +539,7 @@ def data_jampel(request):
             }
     return render(request, 'penjadwalan/data_jampel.html', context)
 
+@user_passes_test(lambda u: u.is_superuser)
 def tambah_jampel(request):
     add_form = Ftambahjampel(request.POST or None)
     if request.method == 'POST':
@@ -536,6 +553,7 @@ def tambah_jampel(request):
     }
     return render(request, 'penjadwalan/tambah_jampel.html', context ) 
 
+@user_passes_test(lambda u: u.is_superuser)
 def update_jampel(request, id_update):
 
     jampel_update = Hari_has_jam.objects.get(id=id_update)
@@ -562,12 +580,15 @@ def update_jampel(request, id_update):
     }
     return render(request, 'penjadwalan/tambah_jampel.html', context )
 
+@user_passes_test(lambda u: u.is_superuser)
 def delete_jampel(request, id_delete):
     Hari_has_jam.objects.filter(id=id_delete).delete()
     return redirect('data_jampel')
 
 
 ########## jadwal ############
+
+@user_passes_test(lambda u: u.is_superuser)
 def kelas_dropdown(request):
     # kelas_id = request.GET.get('kelas')
     mkelas = Kelas.objects.all().order_by('kelas')
@@ -577,7 +598,7 @@ def kelas_dropdown(request):
                 }
     return render (request, "penjadwalan/data_jadwal.html", context)
         
-
+@user_passes_test(lambda u: u.is_superuser)
 def semuaJadwal(request,kelas_id):
     hari = [1, 2, 3, 4, 5, 6]
     jam = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -727,7 +748,7 @@ def semuaJadwal(request,kelas_id):
     template = 'penjadwalan/data_jadwal.html'
     return render (request, template, context)
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def tambah_jadwal(request, kelas, hari, jamke):
     # url_jadwal = request.build_absolute_uri() 
     # get_info = Penjadwalan.objects.get(kelas=kelas, jamke = jamke)
@@ -790,6 +811,7 @@ def tambah_jadwal(request, kelas, hari, jamke):
     }
     return render(request, 'penjadwalan/tambah_jadwal.html', context ) 
 
+@user_passes_test(lambda u: u.is_superuser)
 def tambah_jadwal2(request):
   
     add_form = Ftambahjadwal(request.POST or None)
@@ -836,6 +858,7 @@ def tambah_jadwal2(request):
     }
     return render(request, 'penjadwalan/tambah_jadwal2.html', context )  
 
+@user_passes_test(lambda u: u.is_superuser)
 def update_jadwal(request, kelas, hari, jamke):
     add_form = Ftambahjadwal(request.POST or None)
     jadwal_update = Penjadwalan.objects.get(kelas = kelas, hari = hari, jamke = jamke)
@@ -896,6 +919,7 @@ def update_jadwal(request, kelas, hari, jamke):
     }
     return render(request, 'penjadwalan/update_jadwal.html', context )
 
+@user_passes_test(lambda u: u.is_superuser)
 def delete_jadwal(request, id_delete):
     Penjadwalan.objects.filter(id=id_delete).delete()
   

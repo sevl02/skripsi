@@ -12,6 +12,6 @@ class Fsuratijin(forms.ModelForm):
                     'dokumen',
         ]
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['pengirim'].widget.attrs.update({'readonly':'disabled'})
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tgl_post'].widget.attrs.update({'readonly':'disabled'})

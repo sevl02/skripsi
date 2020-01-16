@@ -101,6 +101,7 @@ def base(request):
 
 
 ########## jadwal ############
+@login_required
 def kelas_dropdown(request):
     # kelas_id = request.GET.get('kelas')
     mkelas = Kelas.objects.all().order_by('kelas')
@@ -111,6 +112,7 @@ def kelas_dropdown(request):
     template = 'userweb/user_lihat_jadwal.html'
     return render (request, template, context)    
 
+@login_required
 def semuaJadwal(request,kelas_id):
  
     hari = [1, 2, 3, 4, 5, 6]
